@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HL7 Validator</title>
+</head>
+
+<body>
+    <h1>Paste HL7 message below</h1>
+    <form method="post">
+        <label for="user_input">Enter HL7 message:</label>
+        <input type="text" id="user_input" name="user_input" placeholder="MSH|...">
+        <button type="submit">Validate</button>
+    </form>
+    <h2>Result:</h2>
+    <p>{{ output }}</p>
+</body>
+
+</html>
