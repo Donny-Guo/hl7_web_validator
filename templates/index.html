@@ -10,12 +10,20 @@
 <body>
     <h1>Paste HL7 message below</h1>
     <form method="post">
-        <label for="user_input">Enter HL7 message:</label>
-        <input type="text" id="user_input" name="user_input" placeholder="MSH|...">
+        <textarea id="user_input" name="user_input" rows="18" cols="120"
+            placeholder="MSH|...">{{user_input}}</textarea><br>
         <button type="submit">Validate</button>
+        <button type="button" id="clear_button" onclick="clearText()"">Clear</button>
     </form>
     <h2>Result:</h2>
-    <p>{{ output }}</p>
+    <pre id=" result">{{ output }}</pre>
+
+            <script>
+                function clearText() {
+                    document.getElementById("user_input").value = "";
+                    document.getElementById("result").textContent = "";
+                }
+            </script>
 </body>
 
 </html>
