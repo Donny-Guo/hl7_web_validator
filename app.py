@@ -1,7 +1,8 @@
 from flask import Flask, render_template, request
 from hl7apy.parser import parse_message
 from datetime import datetime
-import os, threading, time, webbrowser
+import os, time, webbrowser
+import multiprocessing
 
 app = Flask(__name__)
 
@@ -39,5 +40,6 @@ def index():
     return render_template("index.html", output=output, user_input=user_input)
 
 if __name__ == "__main__":
-    threading.Thread(target=open_browser).start()
+    multiprocessing.freeze_support()
+    multiprocessing.Process(target=open_browser).start()
     app.run(debug=True)
