@@ -1,0 +1,11 @@
+[build-system]
+requires = ['setuptools']
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "hl7validator"
+version = "0.1"
+dependencies = ['flask']
+
+[tool.setuptools]
+packages = ['hl7apy', 'hl7apy.v2_5_1']

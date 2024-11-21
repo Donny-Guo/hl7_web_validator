@@ -28,10 +28,10 @@ def index():
     output = ""
     user_input = ""
     if request.method == "POST":
-        message = request.form.get("user_input", "")
-        if message:
+        user_input = request.form.get("user_input", "")
+        if user_input:
             try:
-                output = validate_message(message)
+                output = validate_message(user_input)
             except Exception as e: # caught any exception when parsing the message
                 output = e
         else:
