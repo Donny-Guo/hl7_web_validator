@@ -35,8 +35,8 @@ except NameError:
     xrange = range
 
 
-def parse_message(message, validation_level=None, find_groups=True, message_profile=None, report_file=None,
-                  force_validation=False):
+def parse_message(message, validation_level=None, find_groups=True, reference=None, report_file=None,
+                  force_validation=False, return_errors=False):
     """
     Parse the given ER7-encoded message and return an instance of :class:`Message <hl7apy.core.Message>`.
 
@@ -72,10 +72,10 @@ def parse_message(message, validation_level=None, find_groups=True, message_prof
     encoding_chars, message_structure, version = get_message_info(message)
     validation_level = _get_validation_level(validation_level)
 
-    try:
-        reference = message_profile[message_structure] if message_profile else None
-    except KeyError:
-        raise MessageProfileNotFound()
+    # try:
+    #     reference = message_profile[message_structure] if message_profile else None
+    # except KeyError:
+    #     raise MessageProfileNotFound()
 
     try:
         m = Message(name=message_structure, reference=reference, version=version,
@@ -92,12 +92,13 @@ def parse_message(message, validation_level=None, find_groups=True, message_prof
     m.children = children
 
     if force_validation:
-        if message_profile is None:
-            Validator.validate(m, report_file=report_file)
-        else:
-            Validator.validate(m, message_profile[message_structure], report_file=report_file)
+        errors, warnings = Validator.validate(m, report_file=report_file, return_errors=return_errors)
+        # if message_profile is None:
+        #     Validator.validate(m, report_file=report_file)
+        # else:
+        #     Validator.validate(m, message_profile[message_structure], report_file=report_file)
 
-    return m
+    return m if not return_errors else (m, errors, warnings)
 
 
 def parse_segments(text, version=None, encoding_chars=None, validation_level=None, references=None, find_groups=False):

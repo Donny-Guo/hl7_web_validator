@@ -30,10 +30,10 @@ except ImportError:
 
 import importlib
 
-try:
-    import cPickle as pickle
-except ImportError:
-    import pickle
+# try:
+#     import cPickle as pickle
+# except ImportError:
+#     import pickle
 
 
 from hl7apy.exceptions import UnsupportedVersion, InvalidEncodingChars, UnknownValidationLevel

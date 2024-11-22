@@ -38,7 +38,7 @@ class Validator(object):
         self.level = level
 
     @staticmethod
-    def validate(element, reference=None, report_file=None):
+    def validate(element, reference=None, report_file=None, return_errors=True):
         """
         Checks if the :class:`Element <hl7apy.core.Element>` is a valid HL7 message according to the reference
         specified. If the reference is not specified, it will be used the official HL7 structures for the
@@ -57,8 +57,9 @@ class Validator(object):
         :param element: :class:`Element <hl7apy.core.Element>`: The element to validate
         :param reference: the reference to use. Usually is None or a message profile object
         :param report_file: the name of the report file to create
+        :param return_errors: if return_errors is True, this function will return a list of errors rather than bool
 
-        :return: The True if everything is ok
+        :return: True if everything is ok and return_erros is False; Return a list of errors or [] if return_errors is True
         :raises: :exc:`ValidationError <hl7apy.exceptions.ValidationError>`: when errors occur
         :raises: :exc:`ValidationWarning <hl7apy.exceptions.ValidationWarning>`: errors concerning the values
         """
@@ -84,6 +85,7 @@ class Validator(object):
         def _check_repetitions(el, children, cardinality, child_name, errs):
             children_num = len(children)
             min_repetitions, max_repetitions = cardinality
+            ## Finetune the following for clearer Error message
             if max_repetitions != -1:
                 if children_num < min_repetitions:
                     errs.append(ValidationError("Missing required child {}.{}".format(el.name, child_name)))
@@ -203,10 +205,10 @@ class Validator(object):
                 for w in warnings:
                     f.write("Warning: {}\n".format(w))
 
-        if errors:
-            raise errors[0]
+        # if errors:
+        #     raise errors[0]
 
-        return True
+        return (errors, warnings) if return_errors else True
 
     @staticmethod
     def is_strict(level):
