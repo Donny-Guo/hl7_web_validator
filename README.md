@@ -61,12 +61,6 @@ serve(app, host=host, port=port) # use prod server
 
 ## Package
 To package all files to one executable, [pyinstaller](https://github.com/pyinstaller/pyinstaller) is used in this project. Be sure to read [this](https://pyinstaller.org/en/stable/operating-mode.html) to understand the limitation of pyinstaller.
-To install pyinstaller:
-
-```
-pip install pyinstaller
-```
-
 To package it:
 
 
