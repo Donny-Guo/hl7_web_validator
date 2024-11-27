@@ -1,13 +1,16 @@
 from flask import Flask, render_template, request
 from hl7apy.parser import parse_message
+from waitress import serve
 import time, webbrowser
 import multiprocessing
+import secrets
 
 app = Flask(__name__)
+app.secret_key = secrets.token_hex()
 
-def open_browser():
+def open_browser(url):
     time.sleep(2)
-    webbrowser.open('http://127.0.0.1:5000')
+    webbrowser.open(url)
 
 def validate_message(message):
     message = message.strip('"\n').replace('\n', '\r') # match char to separate segments
@@ -33,6 +36,12 @@ def index():
     return render_template("index.html", output=output, user_input=user_input)
 
 if __name__ == "__main__":
+    host = '127.0.0.1'
+    port = 5000
+    url = f"http://{host}:{port}"
     multiprocessing.freeze_support()
-    multiprocessing.Process(target=open_browser).start()
-    app.run()
+    multiprocessing.Process(target=open_browser, args=(url,)).start()
+    print(f"Running on {url}")
+    print(f"Press CTRL+C to quit")
+    # app.run(host=host, port=port) # use dev server
+    serve(app, host=host, port=port) # use prod server
